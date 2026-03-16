@@ -1,0 +1,11 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "FUNCTIONS_WORKER_RUNTIME": "node",
+    "AzureWebJobsStorage": "the connection string for the storage account used by the functions",
+    "BlobStorage": "put the connection string to the blob storage you are tracking here",
+    "AUDIT_CONTAINER":"landingeventgrid",
+    "AUDIT_AGE_MINUTES": 10,
+    "AUDIT_CRON_SCHEDULE": "0 0 * * * *"
+  }
+}
