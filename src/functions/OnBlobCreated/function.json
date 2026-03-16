@@ -1,0 +1,13 @@
+
+{
+  "bindings": [
+    {
+      "name": "OnBlobCreated",
+      "type": "blobTrigger",
+      "direction": "in",
+      "path": "landingjs/{name}",
+      "connection": "BlobStorage"
+    }
+  ],
+  "scriptFile": "index.js"
+}

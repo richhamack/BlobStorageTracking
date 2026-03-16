@@ -1,0 +1,22 @@
+{
+  "name": "blob-fn-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/functions/**/*.js",
+  "scripts": {
+    "start": "func start",
+    "start:azurite": "azurite --silent --location .azurite --debug .azurite/debug.log",
+    "start:local": "func start --port 7072",
+    "start:dev": "concurrently -n azurite,func \"npm run start:azurite\" \"npm run start:local\"",
+    "test": "echo \"No tests yet...\""
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0",
+    "@azure/storage-blob": "^12.28.0"
+  },
+  "devDependencies": {
+    "azurite": "^3.35.0",
+    "azure-functions-core-tools": "^4.x",
+    "concurrently": "^9.2.1"
+  }
+}
