@@ -5,10 +5,37 @@ This project now contains both trigger styles:
 - `OnBlobCreated` (Blob Trigger / polling-based)
 - `OnBlobCreatedEventGrid` (Event Grid / push-based)
 
+It also includes a timer-based audit function:
+
+- `MissingBlobAudit` (scheduled scan for blobs missing ingestion metadata)
+
 ## Where each function lives
 
 - Blob trigger: `src/functions/OnBlobCreated/index.js`
 - Event Grid trigger: `src/functions/OnBlobCreatedEventGrid/index.js`
+- Timer audit: `src/functions/MissingBlobAudit/index.js`
+
+## MissingBlobAudit summary
+
+`MissingBlobAudit` runs on a timer and scans a configured container for older blobs that appear to have fallen out of the ingestion flow.
+
+### What it checks
+
+- Reads blobs from `AUDIT_CONTAINER` (optionally filtered by `AUDIT_PREFIX`).
+- Ignores blobs newer than `AUDIT_AGE_MINUTES` (default `10`).
+- For older blobs, it inspects metadata keys case-insensitively:
+  - `cosmosId`
+  - `noIngestionReason`
+- If **both** are missing/empty, it logs an error:
+  - `MISSING BLOB DETECTED: ...`
+
+### Schedule and configuration
+
+- Schedule app setting: `AUDIT_CRON_SCHEDULE` (default `0 */5 * * * *`, every 5 minutes).
+- Required setting: `AUDIT_CONTAINER`.
+- Optional setting: `AUDIT_PREFIX`.
+- Optional setting: `AUDIT_AGE_MINUTES`.
+- Storage connection uses `BlobStorage` first, then falls back to `AzureWebJobsStorage`.
 
 ## Container mapping
 
