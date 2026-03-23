@@ -126,13 +126,24 @@ Both functions currently do the same metadata behavior:
 }
 ```
 
-## Wiring Storage -> Event Grid -> Function
+## Wiring Storage -> Event Grid -> Service Bus -> Function
 
 ### 1) Deploy function app
 
-Deploy the Function App containing `OnBlobCreatedEventGrid`.
+Deploy the Function App containing `OnBlobCreatedServiceBus`.
 
-### 2) Create Event Grid subscription on storage account
+### 2) Create Service Bus topic + subscription
+
+In your Service Bus namespace:
+
+1. Create topic: `SERVICE_BUS_TOPIC_NAME` (example: `containerarrival`).
+2. Create subscription: `SERVICE_BUS_SUBSCRIPTION_NAME` (example: `functionTrigger`).
+3. Set app settings on the Function App:
+   - `ServiceBusConnection`
+   - `SERVICE_BUS_TOPIC_NAME`
+   - `SERVICE_BUS_SUBSCRIPTION_NAME`
+
+### 3) Create Event Grid subscription on storage account
 
 In Azure Portal:
 
@@ -140,19 +151,27 @@ In Azure Portal:
 2. Go to **Events**.
 3. Click **+ Event Subscription**.
 4. Event types: select **Blob Created**.
-5. Endpoint type: **Azure Function**.
-6. Choose your Function App and function name: **OnBlobCreatedEventGrid**.
+5. Endpoint type: **Service Bus Topic**.
+6. Choose your Service Bus namespace and topic (`SERVICE_BUS_TOPIC_NAME`).
 7. Scope/filter:
-  - Set subject begins with `/blobServices/default/containers/landingeventgrid/`
-  - This limits events to your `landingeventgrid` container.
+  - Set subject begins with `/blobServices/default/containers/landingsb/`
+  - This limits events to your `landingsb` container.
 
-### 3) Validate
+### 4) Validate
 
-1. Upload a blob to `landingeventgrid`.
+1. Upload a blob to `landingsb`.
 2. Check Function logs.
 3. Confirm metadata updates:
    - first run sets `cosmosId` (or `noIngestionReason` before 10:15)
    - subsequent run on same blob logs existing metadata and exits
+
+## Wiring Storage -> Event Grid -> Function (direct)
+
+If you want direct delivery without Service Bus:
+
+1. Create Event Grid subscription with endpoint type **Azure Function**.
+2. Target function: `OnBlobCreatedEventGrid`.
+3. Filter subject by your target container (for example `/blobServices/default/containers/landingeventgrid/`).
 
 ## Notes
 
