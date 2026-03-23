@@ -4,7 +4,7 @@
     "FUNCTIONS_WORKER_RUNTIME": "node",
     "AzureWebJobsStorage": "the connection string for the storage account used by the functions",
     "BlobStorage": "put the connection string to the blob storage you are tracking here",
-    "ServiceBusConnection": "Endpoint=sb://rhblobtestbus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=PDqxXRsgRF/Yj5dGw/9W3jQl1w+5lGvH++ASbEI+8WY=",
+    "ServiceBusConnection": "",
     "SERVICE_BUS_TOPIC_NAME": "containerarrival",
     "SERVICE_BUS_SUBSCRIPTION_NAME": "functionTrigger",
     "AUDIT_CONTAINER":"landingsb",
