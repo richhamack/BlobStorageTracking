@@ -5,6 +5,7 @@ This project now contains both trigger styles:
 - `OnBlobCreated` (Blob Trigger / polling-based)
 - `OnBlobCreatedEventGrid` (Event Grid / push-based)
 - `OnBlobCreatedServiceBus` (Service Bus Topic Subscription / push-based)
+- `RequeueBlobCreatedHttp` (HTTP trigger to reset metadata and republish BlobCreated event)
 
 It also includes a timer-based audit function:
 
@@ -15,6 +16,7 @@ It also includes a timer-based audit function:
 - Blob trigger: `src/functions/OnBlobCreated/index.js`
 - Event Grid trigger: `src/functions/OnBlobCreatedEventGrid/index.js`
 - Service Bus trigger: `src/functions/OnBlobCreatedServiceBus/index.js`
+- HTTP requeue trigger: `src/functions/RequeueBlobCreatedHttp/index.js`
 - Timer audit: `src/functions/MissingBlobAudit/index.js`
 
 ## MissingBlobAudit summary
@@ -52,6 +54,24 @@ It also includes a timer-based audit function:
 - `ServiceBusConnection` (Service Bus namespace connection string)
 - `SERVICE_BUS_TOPIC_NAME`
 - `SERVICE_BUS_SUBSCRIPTION_NAME`
+
+## HTTP requeue endpoint
+
+`RequeueBlobCreatedHttp` accepts a blob URL, removes these metadata keys from the blob, then publishes a BlobCreated-style event array to Service Bus topic:
+
+- `cosmosId`
+- `noIngestionReason`
+
+### Request
+
+- Method: `POST`
+- Auth: Function key (`authLevel: function`)
+- Provide blob URL as either:
+  - Query string: `?blobUrl=https://<account>.blob.core.windows.net/landingsb/file.pdf`
+  - JSON body: `{ "blobUrl": "https://<account>.blob.core.windows.net/landingsb/file.pdf" }`
+- Optional: `clearMetadata` (defaults to `false`)
+  - Query: `?clearMetadata=true`
+  - Body: `{ "blobUrl": "...", "clearMetadata": true }`
 
 ## High-level differences
 

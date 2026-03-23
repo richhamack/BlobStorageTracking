@@ -12,11 +12,12 @@
   },
   "dependencies": {
     "@azure/functions": "^4.0.0",
+    "@azure/service-bus": "^7.9.5",
     "@azure/storage-blob": "^12.28.0"
   },
   "devDependencies": {
-    "azurite": "^3.35.0",
     "azure-functions-core-tools": "^4.x",
+    "azurite": "^3.35.0",
     "concurrently": "^9.2.1"
   }
 }
