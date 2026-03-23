@@ -4,6 +4,7 @@ This project now contains both trigger styles:
 
 - `OnBlobCreated` (Blob Trigger / polling-based)
 - `OnBlobCreatedEventGrid` (Event Grid / push-based)
+- `OnBlobCreatedServiceBus` (Service Bus Topic Subscription / push-based)
 
 It also includes a timer-based audit function:
 
@@ -13,6 +14,7 @@ It also includes a timer-based audit function:
 
 - Blob trigger: `src/functions/OnBlobCreated/index.js`
 - Event Grid trigger: `src/functions/OnBlobCreatedEventGrid/index.js`
+- Service Bus trigger: `src/functions/OnBlobCreatedServiceBus/index.js`
 - Timer audit: `src/functions/MissingBlobAudit/index.js`
 
 ## MissingBlobAudit summary
@@ -41,6 +43,15 @@ It also includes a timer-based audit function:
 
 - `OnBlobCreated` listens to `landingjs`.
 - `OnBlobCreatedEventGrid` processes only `landingeventgrid` events.
+- `OnBlobCreatedServiceBus` processes `landingeventgrid` events forwarded through Service Bus.
+
+## Service Bus settings
+
+`OnBlobCreatedServiceBus` uses these app settings:
+
+- `ServiceBusConnection` (Service Bus namespace connection string)
+- `SERVICE_BUS_TOPIC_NAME`
+- `SERVICE_BUS_SUBSCRIPTION_NAME`
 
 ## High-level differences
 

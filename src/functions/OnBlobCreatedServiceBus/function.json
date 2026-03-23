@@ -1,0 +1,13 @@
+{
+  "bindings": [
+    {
+      "name": "message",
+      "type": "serviceBusTrigger",
+      "direction": "in",
+      "topicName": "%SERVICE_BUS_TOPIC_NAME%",
+      "subscriptionName": "%SERVICE_BUS_SUBSCRIPTION_NAME%",
+      "connection": "ServiceBusConnection"
+    }
+  ],
+  "scriptFile": "index.js"
+}
